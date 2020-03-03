@@ -54,18 +54,22 @@ app.post('/register', async (req, res) => {
 })
 
 app.post('/login', async (req, res, next) => {
-    const token = req.cookies.Authorization
+    let token = req.cookies.Authorization
     if (token === undefined) {
         let newToken = Math.random().toString();
         newToken = (Math.floor(Math.random() * 1000000000000).toString(36))
         res.cookie('Authorization', newToken, { maxAge: 900000, httpOnly: true });
+        token = newToken
     }
-
     const { name, password } = req.body
     const user = users.find(user => user.name === name)
     const validPassword = await bcrypt.compare(password, user.password)
     if (!validPassword) return res.status(400).send('invalid password')
     sessions.push({ token, user })
     res.json({ token, user })
-    next();
+})
+
+app.post('/logout', async (req, res) => {
+    res.clearCookie('Authorization')
+    res.redirect('/')
 })
