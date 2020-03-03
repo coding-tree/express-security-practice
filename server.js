@@ -12,15 +12,16 @@ app.use(bodyParser.json())
 
 // database mock
 const sessions = [{ "token": "bearer abc", "name": "Andrzej" }]
-const users = [{ "name": "Andrzej", "password": "kleszcz23" }]
+// valid password kleszcz232
+const users = [{ "name": "Andrzej2", "password": "$2b$10$96sk/L2XNNLuwi1iWTIcSOv42ArgH.IhYfTAOJsqt.MvYQydlVUW." }]
 
 app.listen(port, () => console.log(`app listening on port ${port}!`))
 
-
+// secured middleware
 const secured = (req, res, next) => {
     const token = req.header('Authorization');
     if (!token) {
-        res.status(401).send('access denied, no token');
+        res.status(401).send('access denied, invalid token');
     } else {
         const session = sessions.find(session => session.token === token)
         if (session) {
@@ -34,13 +35,13 @@ const secured = (req, res, next) => {
 app.get('/', (req, res) => res.send('witaj na stronie'))
 
 app.get('/private', secured, (req, res) => {
-    const token = req.header('Authorization');
+    const token = req.header('Authorization')
     res.json({ token })
 })
 
 app.post('/register', async (req, res) => {
     const { name, password } = req.body
-    const salt = await bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
     const user = {
         name, password: hashedPassword
@@ -56,5 +57,5 @@ app.post('/login', async (req, res) => {
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) return res.status(400).send('invalid password');
     sessions.push({ token, user })
-    res.json({ token })
+    res.json({ token, user })
 })
