@@ -22,9 +22,15 @@ app.listen(port, () => console.log(`app listening on port ${port}!`))
 
 // secured middleware
 const secured = (req, res, next) => {
-    const token = req.cookies.Authorization
+    let token
+    if (req.headers.authorization) {
+        token = req.headers.authorization
+    } else {
+        token = req.cookies.authorization
+    }
+
     if (!token) {
-        res.status(401).send('access denied, invalid token')
+        res.status(401).send('access denied, no token provided')
     } else {
         const session = sessions.find(session => session.token === token.replace('bearer ', ''))
         if (session) {
@@ -38,7 +44,7 @@ const secured = (req, res, next) => {
 app.get('/', (req, res) => res.send('witaj na stronie'))
 
 app.get('/private', secured, (req, res) => {
-    const token = req.cookies.Authorization
+    const token = req.cookies.authorization || req.headers.authorization
     res.json({ token })
 })
 
@@ -54,12 +60,15 @@ app.post('/register', async (req, res) => {
 })
 
 app.post('/login', async (req, res, next) => {
-    let token = req.cookies.Authorization
-    if (token === undefined) {
-        let newToken = Math.random().toString();
-        newToken = (Math.floor(Math.random() * 1000000000000).toString(36))
-        res.cookie('Authorization', newToken, { maxAge: 900000, httpOnly: true });
+    let token = req.cookies.authorization || req.headers.authorization
+    if (!token && !req.headers.authorization) {
+        let newToken = (Math.floor(Math.random() * 1000000000000).toString(36))
+        res.cookie('authorization', newToken, { maxAge: 900000, httpOnly: true });
         token = newToken
+    } else {
+        let newToken = (Math.floor(Math.random() * 1000000000000).toString(36))
+        token = newToken
+        res.set('authorization', token)
     }
     const { name, password } = req.body
     const user = users.find(user => user.name === name)
@@ -70,6 +79,6 @@ app.post('/login', async (req, res, next) => {
 })
 
 app.post('/logout', async (req, res) => {
-    res.clearCookie('Authorization')
+    res.clearCookie('authorization')
     res.redirect('/')
 })
