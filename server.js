@@ -57,6 +57,7 @@ app.post('/register', async (req, res) => {
     }
     users.push(user)
     res.json({ user })
+    console.log(user);
 })
 
 app.post('/login', async (req, res, next) => {
