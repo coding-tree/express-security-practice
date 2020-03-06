@@ -76,7 +76,7 @@ app.post('/login', async (req, res, next) => {
     const validPassword = await bcrypt.compare(password, user.password)
     if (!validPassword) return res.status(400).send('invalid password')
     sessions.push({ token, user })
-    res.json({ token, user })
+    res.json({ token, user, message: "everything is ok from server" })
 })
 
 app.post('/logout', async (req, res) => {

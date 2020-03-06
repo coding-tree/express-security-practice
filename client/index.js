@@ -7,7 +7,6 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.post('/register', (req, res) => {
@@ -19,6 +18,13 @@ app.post('/register', (req, res) => {
 app.post('/login', (req, res) => {
     const { name, password } = req.body
     axios.post('http://localhost:3000/login', { name, password })
-    res.end()
+        .then(response => {
+            console.log(response);
+            res.json({
+                message: 'everything is ok from client',
+                response: response.data
+            })
+        })
 })
+
 app.listen(port, () => console.log(`app listening on port ${port}!`))
