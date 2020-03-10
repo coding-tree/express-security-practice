@@ -5,7 +5,7 @@ const dotenv = require('dotenv')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const bcrypt = require('bcrypt')
-const port = 3000
+const port = process.env.PORT || 3000
 dotenv.config()
 
 const app = express()
