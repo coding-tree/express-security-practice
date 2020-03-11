@@ -62,12 +62,9 @@ app.post('/register', async (req, res) => {
 
 app.post('/login', async (req, res, next) => {
     let token = req.cookies.authorization || req.headers.authorization
-    if (!token && !req.headers.authorization) {
+    if (!token) {
         let newToken = (Math.floor(Math.random() * 1000000000000).toString(36))
         res.cookie('authorization', newToken, { maxAge: 900000, httpOnly: true });
-        token = newToken
-    } else {
-        let newToken = (Math.floor(Math.random() * 1000000000000).toString(36))
         token = newToken
         res.set('authorization', token)
     }

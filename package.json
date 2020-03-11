@@ -4,7 +4,7 @@
   "description": "You're wondering how to secure your backend application with simple token? This is how we do. Without passport/auth0/jwt/openauth etc. For now without database to avoid storing tons of fake users. Just for test purpouses.",
   "main": "index.js",
   "scripts": {
-    "start": "cd server && nodemon server"
+    "hotel-init": "cd server && npm run set-server && cd .. && cd client && npm run set-client"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/kazbag/express-security-practice/issues"
   },
-  "homepage": "https://github.com/kazbag/express-security-practice#readme"
+  "homepage": "https://github.com/kazbag/express-security-practice#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "hotel": "^0.8.7"
+  }
 }
