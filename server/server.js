@@ -1,12 +1,11 @@
 // hostel (reverse proxy)https://github.com/typicode/hotel
 // pm2 - alternative for hostel (process manager)
 const express = require('express')
-const dotenv = require('dotenv')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const bcrypt = require('bcrypt')
+const dotenv = require('dotenv').config()
 const port = process.env.PORT || 3000
-dotenv.config()
 
 const app = express()
 app.use(cookieParser())
