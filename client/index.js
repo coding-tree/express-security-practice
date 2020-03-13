@@ -2,8 +2,13 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 3001
 const dotenv = require('dotenv').config()
+const cors = require('cors')
 const axios = require('axios')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+
+app.use(cors())
+app.use(cookieParser())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
@@ -22,7 +27,9 @@ app.post('/register', (req, res) => {
 
 app.post('/login', (req, res) => {
     const { name, password } = req.body
-    axios.post('http://server.localhost/login', { name, password })
+    const token = req.headers.authorization
+    console.log(req.headers);
+    axios.post('http://server.localhost/login', { name, password, token })
         .then(response => {
             res.json(response.data)
         }).catch(err => {

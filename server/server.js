@@ -6,8 +6,9 @@ const cookieParser = require('cookie-parser')
 const bcrypt = require('bcrypt')
 const dotenv = require('dotenv').config()
 const port = process.env.PORT || 3000
-
+const cors = require('cors')
 const app = express()
+app.use(cors())
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -65,10 +66,13 @@ app.post('/login', async (req, res, next) => {
         let newToken = (Math.floor(Math.random() * 1000000000000).toString(36))
         res.cookie('authorization', newToken, { maxAge: 900000, httpOnly: true });
         token = newToken
-        res.set('authorization', token)
+        res.setHeader('authorization', token)
     }
     const { name, password } = req.body
     const user = users.find(user => user.name === name)
+    if (!user) {
+        res.status(400).send('cannot find user')
+    }
     const validPassword = await bcrypt.compare(password, user.password)
     if (!validPassword) return res.status(400).send('invalid password')
     sessions.push({ token, user })
