@@ -1,0 +1,11 @@
+p{
+    margin: 0 auto;
+    margin-bottom: 24px;
+    max-width: 768px;
+    color: #f0f0f0;
+    padding: 15px 5px;
+    border-radius: 6px;
+    box-shadow: 5px 2px 5px -1px #738a21;
+    border: 1px solid #b0d332;
+    background-color: rgba(176, 211, 50, 0.05);
+}
