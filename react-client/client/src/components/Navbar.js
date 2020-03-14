@@ -5,10 +5,10 @@ class Navbar extends React.Component {
         return (
             <div className="nav">
                 <div className="menu">
-                    <a href="#">Link1</a>
-                    <a href="#">Link2</a>
-                    <a href="#">Link3</a>
-                    <a href="#">Link4</a>
+                    <a href="#">Start</a>
+                    <a href="#">Logowanie</a>
+                    <a href="#">Rejestracja</a>
+                    <a href="#">Tajne materiały</a>
                 </div>
             </div>
         )
