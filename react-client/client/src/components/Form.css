@@ -24,13 +24,8 @@ button{
     padding: 5px 10px;
     display: inline;
 }
-label{
-    color: #ffffff;
-    margin-right: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.labels{
-    display: flex;
+.title{
+    color: #f0f0f0;
+    text-align: center;
+margin-bottom: 24px;
 }

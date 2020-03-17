@@ -1,23 +1,25 @@
-import React from 'react';
-import './Navbar.css';
-import { Link } from 'react-router-dom';
+import React from "react";
+import "./Navbar.css";
+import { NavLink } from "react-router-dom";
+
+
 class Navbar extends React.Component {
     render() {
         return (
             <div className="nav">
                 <div className="menu">
-                    <Link to="/">
+                    <NavLink exact activeClassName="active" to="/">
                         Strona główna
-                </Link>
-                    <Link to="/login">
+                </NavLink>
+                    <NavLink activeClassName="active" to="/login">
                         Logowanie
-                    </Link>
-                    <Link to="/register">
+                    </NavLink>
+                    <NavLink activeClassName="active" to="/register">
                         Rejestracja
-                    </Link>
-                    <Link to="/private">
+                    </NavLink>
+                    <NavLink activeClassName="active" to="/private">
                         Tajne/poufne
-                    </Link>
+                    </NavLink>
                 </div>
             </div>
         )
