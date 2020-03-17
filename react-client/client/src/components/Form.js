@@ -12,7 +12,7 @@ class Form extends React.Component {
         }
     }
     handleChanger = (e) => {
-        this.setState({ [e.target.name]: e.target.value }, () => { console.log(this.state) })
+        this.setState({ [e.target.name]: e.target.value })
     }
 
     registerHandler = (e) => {

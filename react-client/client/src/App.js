@@ -3,14 +3,20 @@ import logo from './logo.svg';
 import Navbar from './components/Navbar';
 import Form from './components/Form';
 import Content from './components/Content';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <Navbar />
-      <Content />
-      <Form />
-    </div>
+    <Router>
+      <div className="App">
+        <Navbar />
+        <Switch>
+          <Route exact path="/" component={Content} />
+          <Route path="/login" component={Form} />
+          <Route path="/register" component={Form} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
