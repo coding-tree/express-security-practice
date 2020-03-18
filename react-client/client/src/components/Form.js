@@ -22,7 +22,7 @@ class Form extends React.Component {
         e.preventDefault()
         axios.post('http://server.localhost/register', this.state)
             .then(response => {
-                this.setState({ message: response.data.message })
+                this.setState({ message: 'zarejestrowano użytkownika' })
                 console.log(response)
             }).catch(error => {
                 this.setState({ message: 'blad rejestracji' })
@@ -36,9 +36,9 @@ class Form extends React.Component {
             .then(response => {
                 document.cookie = `Authorization=${response.data.token}`
                 console.log(response)
-                this.setState({ message: response.data.message })
+                this.setState({ message: 'zalogowano' })
             }).catch(error => {
-                this.setState({ message: 'blad rejestracji' })
+                this.setState({ message: 'blad logowania' })
                 console.log(error)
             })
     }

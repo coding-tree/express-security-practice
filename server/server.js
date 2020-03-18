@@ -64,8 +64,12 @@ app.get("/private", authorizationChain, (req, res) => {
 
 app.post("/register", async (req, res) => {
   const { name, password } = req.body;
-  const user = await registerUser(name, password);
-  res.json({ user: { name: user.name } });
+  const [user, error] = await registerUser(name, password);
+  if (error) {
+    res.status(409).send(error);
+  } else {
+    res.json({ user: { name: user.name } });
+  }
 });
 
 app.post("/login", async (req, res) => {

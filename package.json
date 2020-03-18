@@ -12,7 +12,9 @@
     "hotel-init": "npm run hotel-init:client && npm run hotel-init:server",
     "hotel-start": "hotel start",
     "hotel-stop": "hotel stop",
-    "hotel-reset": "hotel stop && hotel start"
+    "hotel-reset": "hotel stop && hotel start",
+    "hotel-info": "hotel --help",
+    "add-react": "cd react-client && cd client && cd src && hotel add \"npm start\" index.js"
   },
   "repository": {
     "type": "git",

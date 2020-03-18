@@ -2,36 +2,41 @@ const bcrypt = require("bcrypt");
 
 const users = [
   {
-    name: "Andrzej2",
-    password: "$2b$10$96sk/L2XNNLuwi1iWTIcSOv42ArgH.IhYfTAOJsqt.MvYQydlVUW."
+    // 123/123
+    name: "123",
+    password: "$2b$10$KSAfjDM1aEkoAU/vW7HH9O2eATiClAJrKDSE1cVlSPNMdZSo5KOvW"
   }
 ];
 
 const loginUser = async (name, password) => {
-    const user = users.find(user => user.name === name);
-    if (!user) {
-      return [null, "cannot find user"];
-    }
-    const validPassword = await bcrypt.compare(password, user.password);
-    if (!validPassword) return [null, "invalid password"];
+  const user = users.find(user => user.name === name);
+  if (!user) {
+    return [null, "cannot find user"];
+  }
+  const validPassword = await bcrypt.compare(password, user.password);
+  if (!validPassword) return [null, "invalid password"];
 
-    return [user, null]
+  return [user, null]
 }
 
 const registerUser = async (name, password) => {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const user = {
-      name,
-      password: hashedPassword
-    };
-    
-    users.push(user);
-    
-    return user;
+  const userInDatabase = users.find(user => user.name === name)
+  if (userInDatabase) {
+    return [null, "user already exists"];
+  }
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  const user = {
+    name,
+    password: hashedPassword
+  };
+
+  users.push(user);
+
+  return [user, null];
 }
 
 module.exports = {
-    loginUser,
-    registerUser
+  loginUser,
+  registerUser
 }
