@@ -9,7 +9,8 @@ const port = process.env.PORT || 3000;
 const {
   createSession,
   fetchSession,
-  removeSession
+  removeSession,
+  checkSession
 } = require("./SessionService");
 const { loginUser, registerUser } = require("./UserRepository");
 
@@ -58,6 +59,16 @@ const authorizationChain = [
 
 app.get("/", (req, res) => res.send("witaj na stronie"));
 
+app.post('/check', async (req, res) => {
+  const { token } = req.body;
+  const [user, error] = await checkSession(token);
+  if (!user) {
+    res.status(400).send(error);
+  } else {
+    res.send('ok!');
+  }
+})
+
 app.get("/private", authorizationChain, (req, res) => {
   res.json({ session: req.session });
 });
@@ -89,6 +100,8 @@ app.post("/login", async (req, res) => {
     });
   }
 });
+
+
 
 app.post("/logout", authorizationChain, async (req, res) => {
   removeSession(req.token);

@@ -10,12 +10,13 @@ class Form extends React.Component {
         this.state = {
             name: '',
             password: '',
-            message: ''
+            message: '',
+            isLogged: false
         }
     }
 
     handleChanger = (e) => {
-        this.setState({ [e.target.name]: e.target.value }, () => { console.log(this.state); console.log(this.props.type) })
+        this.setState({ [e.target.name]: e.target.value }, () => { console.log(this.state); console.log(this.props) })
     }
 
     registerHandler = (e) => {
@@ -36,7 +37,7 @@ class Form extends React.Component {
             .then(response => {
                 document.cookie = `Authorization=${response.data.token}`
                 console.log(response)
-                this.setState({ message: 'zalogowano' })
+                this.setState({ message: 'zalogowano', isLogged: true })
             }).catch(error => {
                 this.setState({ message: 'blad logowania' })
                 console.log(error)
@@ -56,6 +57,9 @@ class Form extends React.Component {
                     </div>
                 </form>
                 <h3 style={{ color: "red", textAlign: "center", marginTop: '12px' }}>{this.state.message}</h3>
+                {
+                    this.state.isLogged && <div style={{ color: 'red', textAlign: 'center' }}>Zalogowano</div>
+                }
             </>
         )
     }

@@ -28,11 +28,16 @@ const createSession = user => {
  * Remove user session
  */
 const removeSession = token => {
-    sessions.filter(session => session.token !== token);
+  sessions.filter(session => session.token !== token);
+}
+
+const checkSession = token => {
+  return [sessions.find(session => session.token === token), null];
 }
 
 module.exports = {
   createSession,
   fetchSession,
-  removeSession
+  removeSession,
+  checkSession
 };
