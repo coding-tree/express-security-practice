@@ -4,9 +4,9 @@ const LoggedPage = () => {
     const [count, setCount] = useState(0);
 
     return (
-        <div>
-            <p>naciśnięto {count} razy</p>
-            <button onClick={() => { setCount(count + 1) }}>Dodaj</button>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+            <p style={{ color: 'white', marginBottom: '24px' }}>naciśnięto {count} razy</p>
+            <button style={{ display: 'block' }} onClick={() => { setCount(count + 1) }}>Dodaj</button>
         </div>
     )
 }

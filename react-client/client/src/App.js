@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
 import Navbar from './components/Navbar';
 import Form from './components/Form';
-import Content from './components/Content';
 import LoggedPage from './components/LoggedPage';
 import Greetings from './components/Greetings';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -14,12 +12,12 @@ const App = () => {
     const token = document.cookie.replace("Authorization=", "")
     if (!token) return
     axios.post('http://server.localhost/check', { "token": token })
-      .then(() => {
+      .then(response => {
         setIsLogged(true)
-      }).catch(() => {
+      }).catch(response => {
         setIsLogged(false)
       })
-  }, [])
+  }, [isLogged])
   return (
     <Router>
       <div className="App">
@@ -28,7 +26,7 @@ const App = () => {
           <Route exact path="/" component={Greetings} />
           <Route path="/login" component={Form} />
           <Route path="/register" component={Form} />
-          <Route path="/private" component={isLogged ? Content : null} />
+          {isLogged && <Route path="/private" component={LoggedPage} />}
         </Switch>
       </div>
     </Router>

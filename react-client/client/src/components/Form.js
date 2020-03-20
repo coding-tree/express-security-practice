@@ -1,68 +1,62 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Form.css';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 
-class Form extends React.Component {
-    constructor(props) {
-        super(props)
-        console.log(props)
-        this.state = {
-            name: '',
-            password: '',
-            message: '',
-            isLogged: false
-        }
-    }
+const Form = (props) => {
+    const [input, setInput] = useState({})
 
-    handleChanger = (e) => {
-        this.setState({ [e.target.name]: e.target.value }, () => { console.log(this.state); console.log(this.props) })
-    }
+    const handleInputChange = (e) => setInput({
+        ...input,
+        [e.currentTarget.name]: e.currentTarget.value
+    })
 
-    registerHandler = (e) => {
+    const { isLogged, setIsLogged } = useState(false);
+    const { message, setMessage } = useState("");
+
+    const registerHandler = (e) => {
         e.preventDefault()
-        axios.post('http://server.localhost/register', this.state)
+        axios.post('http://server.localhost/register', input)
             .then(response => {
-                this.setState({ message: 'zarejestrowano użytkownika' })
+                setMessage('zarejestrowano użytkownika')
                 console.log(response)
             }).catch(error => {
-                this.setState({ message: 'blad rejestracji' })
+                setMessage('błąd rejestracji')
                 console.log(error)
             })
     }
 
-    loginHandler = (e) => {
+    const loginHandler = (e) => {
         e.preventDefault()
-        axios.post('http://server.localhost/login', this.state)
+        axios.post('http://server.localhost/login', { input })
             .then(response => {
                 document.cookie = `Authorization=${response.data.token}`
                 console.log(response)
-                this.setState({ message: 'zalogowano', isLogged: true })
+                setMessage('zalogowano')
+                setIsLogged(true)
             }).catch(error => {
-                this.setState({ message: 'blad logowania' })
+                setMessage('błąd logowania')
+                setIsLogged(false)
                 console.log(error)
             })
     }
 
-    render() {
-        const { name, password } = this.state
-        return (
-            <>
-                <h3 className="title">{this.props.location.pathname === '/login' ? "Logowanie" : "Rejestracja"}</h3>
-                <form onSubmit={this.props.location.pathname === '/login' ? this.loginHandler : this.registerHandler}>
-                    <input type="text" placeholder="login" name="name" value={name} onChange={this.handleChanger} />
-                    <input type="password" placeholder="hasło" name="password" value={password} onChange={this.handleChanger} />
-                    <div className="buttons">
-                        <button type="submit">{this.props.location.pathname === '/login' ? 'zaloguj' : 'zarejestruj'}</button>
-                    </div>
-                </form>
-                <h3 style={{ color: "red", textAlign: "center", marginTop: '12px' }}>{this.state.message}</h3>
-                {
-                    this.state.isLogged && <div style={{ color: 'red', textAlign: 'center' }}>Zalogowano</div>
-                }
-            </>
-        )
-    }
+    return (
+        <>
+            <h3 className="title">{props.location.pathname === '/login' ? "Logowanie" : "Rejestracja"}</h3>
+            <form onSubmit={props.location.pathname === '/login' ? loginHandler : registerHandler}>
+                <input type="text" placeholder="login" name="name" onChange={handleInputChange} />
+                <input type="password" placeholder="hasło" name="password" onChange={handleInputChange} />
+                <div className="buttons">
+                    <button type="submit">{props.location.pathname === '/login' ? 'zaloguj' : 'zarejestruj'}</button>
+                </div>
+            </form>
+            <h3 style={{ color: "red", textAlign: "center", marginTop: '12px' }}>{message}</h3>
+            {
+                isLogged && <div style={{ color: 'red', textAlign: 'center' }}>Zalogowano</div>
+            }
+        </>
+    )
 }
 
 export default withRouter(Form);
