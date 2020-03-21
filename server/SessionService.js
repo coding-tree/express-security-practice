@@ -29,11 +29,11 @@ const createSession = user => {
  */
 const removeSession = token => {
   sessions.filter(session => session.token !== token);
-}
+};
 
 const checkSession = token => {
   return [sessions.find(session => session.token === token), null];
-}
+};
 
 module.exports = {
   createSession,
