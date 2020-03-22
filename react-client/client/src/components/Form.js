@@ -35,7 +35,7 @@ const Form = props => {
     axios
       .post("http://server.localhost/login", data)
       .then(response => {
-        document.cookie = `Authorization=${response.data.token}`;
+        document.cookie = `authorization=${response.data.token}`;
         console.log(response);
         setMessage("zalogowano");
         setIsLogged(true);

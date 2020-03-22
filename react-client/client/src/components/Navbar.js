@@ -16,6 +16,9 @@ class Navbar extends React.Component {
           <NavLink activeClassName="active" to="/register">
             Rejestracja
           </NavLink>
+          <NavLink activeClassName="active" to="/logout">
+            Wyloguj
+          </NavLink>
           <NavLink activeClassName="active" to="/private">
             Tajne/poufne
           </NavLink>
