@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Form from "./components/Form";
 import LoggedPage from "./components/LoggedPage";
 import Greetings from "./components/Greetings";
+import Logout from "./components/Logout";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
 
@@ -10,7 +11,7 @@ const App = () => {
   const [isLogged, setIsLogged] = useState(false);
   console.log(isLogged);
   useEffect(() => {
-    const token = document.cookie.replace("Authorization=", "");
+    const token = document.cookie.replace("authorization=", "");
     axios
       .post("http://server.localhost/check", { token: token || null })
       .then(response => {
@@ -38,6 +39,7 @@ const App = () => {
             )}
           />
           <Route path="/register" component={Form} />
+          <Route path="/logout" component={Logout} />
           {isLogged && <Route path="/private" component={LoggedPage} />}
         </Switch>
       </div>
