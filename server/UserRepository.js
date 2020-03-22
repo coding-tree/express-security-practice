@@ -14,13 +14,14 @@ const loginUser = async (name, password) => {
     return [null, "cannot find user"];
   }
   const validPassword = await bcrypt.compare(password, user.password);
-  if (!validPassword) return [null, "invalid password"];
-
-  return [user, null]
-}
+  if (!validPassword) {
+    return [null, "invalid password"];
+  }
+  return [user, null];
+};
 
 const registerUser = async (name, password) => {
-  const userInDatabase = users.find(user => user.name === name)
+  const userInDatabase = users.find(user => user.name === name);
   if (userInDatabase) {
     return [null, "user already exists"];
   }
@@ -34,9 +35,9 @@ const registerUser = async (name, password) => {
   users.push(user);
 
   return [user, null];
-}
+};
 
 module.exports = {
   loginUser,
   registerUser
-}
+};
