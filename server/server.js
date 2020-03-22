@@ -15,8 +15,7 @@ const {
 const { loginUser, registerUser } = require("./UserRepository");
 
 const app = express();
-
-app.use(cors());
+app.use(cors({ credentials: true, origin: "http://src.localhost" }));
 app.use(cookieParser());
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,7 +27,6 @@ const cookieTokenExtractor = cookieName => (req, res, next) => {
 };
 
 const authorizationHeaderTokenExtractor = (req, res, next) => {
-  console.log("jestem w uath header extracntor");
   const authorizationHeader = req.headers.authorization;
   console.log(req.headers);
   if (authorizationHeader) {

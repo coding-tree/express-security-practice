@@ -11,24 +11,24 @@ const App = () => {
   const [isLogged, setIsLogged] = useState(false);
   console.log(isLogged);
   useEffect(() => {
-    const token = document.cookie.replace("authorization=", "");
-    axios
-      .post("http://server.localhost/check", { token: token || null })
+    const instance = axios.create({
+      withCredentials: true
+    });
+    instance
+      .post("http://server.localhost/check")
       .then(response => {
+        console.log("ok");
         setIsLogged(true);
       })
       .catch(response => {
+        console.log("not ok");
         setIsLogged(false);
       });
   }, []);
   return (
     <Router>
       <div className="App">
-        {isLogged && (
-          <div style={{ color: "white" }}>
-            tekst ino dla zalogowanych chłopków
-          </div>
-        )}
+        {isLogged && <div style={{ color: "white" }}>Zalogowano!</div>}
         <Navbar />
         <Switch>
           <Route exact path="/" component={Greetings} />

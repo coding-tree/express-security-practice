@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
 import "./Form.css";
 import axios from "axios";
@@ -35,8 +36,6 @@ const Form = props => {
     axios
       .post("http://server.localhost/login", data)
       .then(response => {
-        document.cookie = `authorization=${response.data.token}`;
-        console.log(response);
         setMessage("zalogowano");
         setIsLogged(true);
       })
