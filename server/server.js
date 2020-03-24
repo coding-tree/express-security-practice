@@ -15,11 +15,11 @@ const {
 const { loginUser, registerUser } = require("./UserRepository");
 
 const app = express();
-app.use(cors({ credentials: true, origin: "http://src.localhost" }));
-app.use(cookieParser());
 
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors({ credentials: true, origin: "http://src.localhost" }));
 
 const cookieTokenExtractor = cookieName => (req, res, next) => {
   req.token = req.cookies[cookieName];
@@ -60,7 +60,9 @@ const authorizationChain = [
 app.get("/", (req, res) => res.send("witaj na stronie"));
 
 app.post("/check", async (req, res) => {
-  const { token } = req.body;
+  res.set("Access-Control-Allow-Origin", "http://src.localhost");
+  res.set("Access-Control-Allow-Credentials", true);
+  const token = req.cookies.session;
   const [user, error] = await checkSession(token);
   if (!user) {
     res.status(400).send(error);
