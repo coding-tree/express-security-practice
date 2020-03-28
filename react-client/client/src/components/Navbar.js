@@ -1,31 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Navbar.css";
 import { NavLink } from "react-router-dom";
 
-class Navbar extends React.Component {
-  render() {
-    return (
-      <div className="nav">
-        <div className="menu">
-          <NavLink exact activeClassName="active" to="/">
-            Strona główna
-          </NavLink>
+const Navbar = props => {
+  const { isLogged, setIsLogged } = props;
+  // console.log(props);
+  // useEffect(() => {}, [isLogged]);
+  return (
+    <div className="nav">
+      <div className="menu">
+        <NavLink exact activeClassName="active" to="/">
+          Strona główna
+        </NavLink>
+        {!isLogged && (
           <NavLink activeClassName="active" to="/login">
             Logowanie
           </NavLink>
+        )}
+        {!isLogged && (
           <NavLink activeClassName="active" to="/register">
             Rejestracja
           </NavLink>
+        )}
+        {isLogged && (
           <NavLink activeClassName="active" to="/logout">
             Wyloguj
           </NavLink>
+        )}
+        {isLogged && (
           <NavLink activeClassName="active" to="/private">
-            Tajne/poufne
+            Tajemnica
           </NavLink>
-        </div>
+        )}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Navbar;

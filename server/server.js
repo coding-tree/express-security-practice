@@ -62,10 +62,12 @@ app.get("/", (req, res) => res.send("witaj na stronie"));
 app.post("/check", async (req, res) => {
   res.set("Access-Control-Allow-Origin", "http://src.localhost");
   res.set("Access-Control-Allow-Credentials", true);
+  res.set("Set-Cookie", "HttpOnly;Secure;SameSite=None");
   const token = req.cookies.session;
   const [user, error] = await checkSession(token);
   if (!user) {
-    res.status(400).send(error);
+    next();
+    // res.status(400).send(error);
   } else {
     res.send("ok!");
   }
