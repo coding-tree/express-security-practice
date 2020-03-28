@@ -2,47 +2,53 @@
 import React, { useState, useEffect } from "react";
 import "./Form.css";
 import axios from "axios";
-import { withRouter } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 
 const Form = props => {
-  const { isLogged, setIsLogged } = props;
+  const [isLogged, setIsLogged] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [message, setMessage] = useState("");
   const [data, setData] = useState({});
   const handleInputChange = e =>
     setData({
       ...data,
       [e.currentTarget.name]: e.currentTarget.value
     });
-
-  const [message, setMessage] = useState("");
-
   const registerHandler = e => {
     e.preventDefault();
     axios
       .post("http://server.localhost/register", data)
       .then(response => {
-        setIsLogged(true);
-        setMessage("zarejestrowano użytkownika");
         console.log(response);
+        setMessage("Stworzono konto");
+        setIsRegistered(true);
+        setTimeout(() => {
+          props.history.push("/login");
+          window.location.reload();
+        }, 1000);
       })
       .catch(error => {
-        setIsLogged(false);
-        setMessage("błąd rejestracji");
-        console.log(error);
+        setMessage(error.response.data);
+        setIsRegistered(false);
       });
   };
-
   const loginHandler = e => {
     e.preventDefault();
-    axios
-      .post("http://server.localhost/login", data)
+    axios("http://server.localhost/login", {
+      method: "POST",
+      data: data,
+      withCredentials: true
+    })
       .then(response => {
-        setMessage("zalogowano");
+        console.log("jesteśmy w ok");
         setIsLogged(true);
+        props.history.push("/");
+        window.location.reload();
       })
-      .catch(error => {
-        setMessage("błąd logowania");
+      .catch(err => {
+        console.log("jesteśmy w nie ok");
+        console.log(err);
         setIsLogged(false);
-        console.log(error);
       });
   };
 
@@ -74,12 +80,7 @@ const Form = props => {
           </button>
         </div>
       </form>
-      <h3 style={{ color: "red", textAlign: "center", marginTop: "12px" }}>
-        {message}
-      </h3>
-      {isLogged && (
-        <div style={{ color: "red", textAlign: "center" }}>Zalogowano</div>
-      )}
+      <h3 style={{ textAlign: "center", color: "green" }}>{message}</h3>
     </>
   );
 };

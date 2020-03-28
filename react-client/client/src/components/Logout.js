@@ -2,20 +2,18 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const Logout = props => {
-  const [isLoggedOut, setIsLoggedOut] = useState(false);
-  const token = document.cookie.replace("authorization=", "");
+  const { isLogged, setIsLogged } = props;
   useEffect(() => {
-    axios({
+    axios("http://server.localhost/logout", {
       method: "POST",
-      url: "http://server.localhost/logout",
-      headers: { authorization: token },
-      data: { user: "name" }
+      withCredentials: true
     })
-      .then(response => {
-        console.log(response);
+      .then(res => {
+        setIsLogged(false);
       })
       .catch(err => {
         console.log(err);
+        setIsLogged(true);
       });
   });
   return (
