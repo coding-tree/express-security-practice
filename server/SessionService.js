@@ -1,7 +1,7 @@
 /**
  * Sessions
  */
-const sessions = [{ token: "abc", user: { name: "Andrzej" } }];
+let sessions = [{ token: "abc", user: { name: "Andrzej" } }];
 
 /**
  * Fetch user session by token
@@ -28,7 +28,8 @@ const createSession = user => {
  * Remove user session
  */
 const removeSession = token => {
-  sessions.filter(session => session.token !== token);
+  sessions = sessions.filter(session => session.token !== token);
+  console.log("current sessions after remove ", sessions);
 };
 
 const checkSession = token => {
