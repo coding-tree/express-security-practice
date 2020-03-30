@@ -28,7 +28,6 @@ const cookieTokenExtractor = cookieName => (req, res, next) => {
 
 const authorizationHeaderTokenExtractor = (req, res, next) => {
   const authorizationHeader = req.headers.authorization;
-  console.log(req.headers);
   if (authorizationHeader) {
     req.token = authorizationHeader.replace("bearer ", "");
   }
@@ -59,11 +58,12 @@ const authorizationChain = [
 
 app.get("/", (req, res) => res.send("witaj na stronie"));
 
-app.post("/check", async (req, res) => {
+app.post("/check", async (req, res, next) => {
   res.set("Access-Control-Allow-Origin", "http://src.localhost");
   res.set("Access-Control-Allow-Credentials", true);
   res.set("Set-Cookie", "HttpOnly;Secure;SameSite=None");
   const token = req.cookies.session;
+  console.log("token in check endpoint ", token);
   const [user, error] = await checkSession(token);
   if (!user) {
     next();
@@ -106,8 +106,10 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/logout", authorizationChain, async (req, res) => {
+  console.log(req.token + " req token");
   removeSession(req.token);
   res.clearCookie("authorization");
+  res.clearCookie("session");
   res.redirect("/");
 });
 
