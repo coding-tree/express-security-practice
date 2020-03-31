@@ -1,10 +1,13 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Form.css";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 
 const Form = ({ history, location }) => {
+  const ctx = useContext(AuthContext);
+  const { isAuthenticated, setAuth } = ctx;
   const [isLogged, setIsLogged] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [message, setMessage] = useState("");
@@ -15,7 +18,7 @@ const Form = ({ history, location }) => {
     }
   }, [isRegistered]);
   useEffect(() => {
-    if (isLogged) {
+    if (isLogged || isAuthenticated) {
       history.push("/");
     }
   }, [isLogged]);
@@ -47,44 +50,50 @@ const Form = ({ history, location }) => {
     })
       .then(response => {
         setIsLogged(true);
+        setAuth(true);
         history.push("/");
       })
       .catch(err => {
         console.log(err);
         setIsLogged(false);
+        setAuth(false);
       });
   };
 
   return (
-    <>
-      <h3 className="title">
-        {location.pathname === "/login" ? "Logowanie" : "Rejestracja"}
-      </h3>
-      <form
-        onSubmit={
-          location.pathname === "/login" ? loginHandler : registerHandler
-        }
-      >
-        <input
-          type="text"
-          placeholder="login"
-          name="name"
-          onChange={handleInputChange}
-        />
-        <input
-          type="password"
-          placeholder="hasło"
-          name="password"
-          onChange={handleInputChange}
-        />
-        <div className="buttons">
-          <button type="submit">
-            {location.pathname === "/login" ? "zaloguj" : "zarejestruj"}
-          </button>
-        </div>
-      </form>
-      <h3 style={{ textAlign: "center", color: "green" }}>{message}</h3>
-    </>
+    <AuthContext.Consumer>
+      {context => (
+        <>
+          <h3 className="title">
+            {location.pathname === "/login" ? "Logowanie" : "Rejestracja"}
+          </h3>
+          <form
+            onSubmit={
+              location.pathname === "/login" ? loginHandler : registerHandler
+            }
+          >
+            <input
+              type="text"
+              placeholder="login"
+              name="name"
+              onChange={handleInputChange}
+            />
+            <input
+              type="password"
+              placeholder="hasło"
+              name="password"
+              onChange={handleInputChange}
+            />
+            <div className="buttons">
+              <button type="submit">
+                {location.pathname === "/login" ? "zaloguj" : "zarejestruj"}
+              </button>
+            </div>
+          </form>
+          <h3 style={{ textAlign: "center", color: "green" }}>{message}</h3>
+        </>
+      )}
+    </AuthContext.Consumer>
   );
 };
 
