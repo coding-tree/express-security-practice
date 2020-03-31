@@ -63,11 +63,12 @@ app.post("/check", async (req, res, next) => {
   res.set("Access-Control-Allow-Credentials", true);
   res.set("Set-Cookie", "HttpOnly;Secure;SameSite=None");
   const token = req.cookies.session;
+  if (!token) return;
   console.log("token in check endpoint ", token);
   const [user, error] = await checkSession(token);
   if (!user) {
     next();
-    // res.status(400).send(error);
+    res.status(400).send(error);
   } else {
     res.send("ok!");
   }
