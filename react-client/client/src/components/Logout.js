@@ -13,9 +13,8 @@ const Logout = props => {
       })
       .catch(err => {
         console.log(err);
-        setIsLogged(true);
       });
-  });
+  }, []);
   return (
     <div>
       <h3 style={{ color: "red", textAlign: "center" }}>Wylogowano</h3>
