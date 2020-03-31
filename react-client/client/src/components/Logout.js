@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const Logout = props => {
-  const { isLogged, setIsLogged } = props;
+const Logout = ({ isLogged, setIsLogged }) => {
   useEffect(() => {
     axios("http://server.localhost/logout", {
       method: "POST",

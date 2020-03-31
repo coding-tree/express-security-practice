@@ -26,13 +26,7 @@ const App = () => {
       <div className="App">
         <Navbar isLogged={isLogged} setIsLogged={setIsLogged} />
         <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <Greetings isLogged={isLogged} setIsLogged={setIsLogged} />
-            )}
-          />
+          <Route exact path="/" component={Greetings} />
           <Route
             path="/login"
             render={() => (
@@ -51,5 +45,4 @@ const App = () => {
     </Router>
   );
 };
-
 export default App;

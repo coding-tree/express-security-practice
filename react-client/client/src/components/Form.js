@@ -2,13 +2,23 @@
 import React, { useState, useEffect } from "react";
 import "./Form.css";
 import axios from "axios";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
-const Form = props => {
+const Form = ({ history, location }) => {
   const [isLogged, setIsLogged] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [message, setMessage] = useState("");
   const [data, setData] = useState({});
+  useEffect(() => {
+    if (isRegistered) {
+      history.push("/login");
+    }
+  }, [isRegistered]);
+  useEffect(() => {
+    if (isLogged) {
+      history.push("/");
+    }
+  }, [isLogged]);
   const handleInputChange = e =>
     setData({
       ...data,
@@ -22,10 +32,6 @@ const Form = props => {
         console.log(response);
         setMessage("Stworzono konto");
         setIsRegistered(true);
-        setTimeout(() => {
-          props.history.push("/login");
-          window.location.reload();
-        }, 1000);
       })
       .catch(error => {
         setMessage(error.response.data);
@@ -40,13 +46,10 @@ const Form = props => {
       withCredentials: true
     })
       .then(response => {
-        console.log("jesteśmy w ok");
         setIsLogged(true);
-        props.history.push("/");
-        window.location.reload();
+        history.push("/");
       })
       .catch(err => {
-        console.log("jesteśmy w nie ok");
         console.log(err);
         setIsLogged(false);
       });
@@ -55,11 +58,11 @@ const Form = props => {
   return (
     <>
       <h3 className="title">
-        {props.location.pathname === "/login" ? "Logowanie" : "Rejestracja"}
+        {location.pathname === "/login" ? "Logowanie" : "Rejestracja"}
       </h3>
       <form
         onSubmit={
-          props.location.pathname === "/login" ? loginHandler : registerHandler
+          location.pathname === "/login" ? loginHandler : registerHandler
         }
       >
         <input
@@ -76,7 +79,7 @@ const Form = props => {
         />
         <div className="buttons">
           <button type="submit">
-            {props.location.pathname === "/login" ? "zaloguj" : "zarejestruj"}
+            {location.pathname === "/login" ? "zaloguj" : "zarejestruj"}
           </button>
         </div>
       </form>
