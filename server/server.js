@@ -89,6 +89,9 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "http://src.localhost");
+  res.set("Access-Control-Allow-Credentials", true);
+  res.set("Set-Cookie", "HttpOnly;Secure;SameSite=None");
   const { name, password } = req.body;
   const [user, error] = await loginUser(name, password);
   if (error) {
