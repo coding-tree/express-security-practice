@@ -3,8 +3,7 @@ import { withRouter } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
 const Greetings = ({ history }) => {
-  const ctx = useContext(AuthContext);
-  const { isAuthenticated } = ctx;
+  const [isAuthenticated, setAuth] = useContext(AuthContext);
 
   return (
     <AuthContext.Consumer>

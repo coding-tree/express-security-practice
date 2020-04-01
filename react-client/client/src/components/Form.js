@@ -6,8 +6,7 @@ import { withRouter } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
 const Form = ({ history, location }) => {
-  const ctx = useContext(AuthContext);
-  const { isAuthenticated, setAuth } = ctx;
+  const [isAuthenticated, setAuth] = useContext(AuthContext);
   const [isRegistered, setIsRegistered] = useState(false);
   const [message, setMessage] = useState("");
   const [data, setData] = useState({});

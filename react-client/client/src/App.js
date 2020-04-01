@@ -7,7 +7,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AuthContextProvider, { AuthContext } from "./contexts/AuthContext";
 
 const App = () => {
-  const ctx = useContext(AuthContext);
   return (
     <AuthContextProvider>
       <Router>

@@ -1,32 +1,26 @@
-import React, { Component, createContext } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 export const AuthContext = createContext();
-class AuthContextProvider extends Component {
-  state = { isAuthenticated: false };
-  setAuth = value => {
-    this.setState({ isAuthenticated: value });
-  };
 
-  componentDidMount() {
+const AuthContextProvider = ({ children }) => {
+  const [isAuthenticated, setAuth] = useState(false);
+  useEffect(() => {
     axios("http://server.localhost/check", {
       method: "POST",
       withCredentials: true
     })
       .then(response => {
-        this.setAuth(true);
+        setAuth(true);
       })
       .catch(err => {
         console.log(err);
-        this.setAuth(false);
+        setAuth(false);
       });
-  }
-
-  render() {
-    return (
-      <AuthContext.Provider value={{ ...this.state, setAuth: this.setAuth }}>
-        {this.props.children}
-      </AuthContext.Provider>
-    );
-  }
-}
+  }, []);
+  return (
+    <AuthContext.Provider value={[isAuthenticated, setAuth]}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
 export default AuthContextProvider;

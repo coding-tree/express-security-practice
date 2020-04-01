@@ -1,16 +1,19 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
+import { withRouter } from "react-router-dom";
 
 const Logout = props => {
-  const ctx = useContext(AuthContext);
-  const { isAuthenticated, setAuth } = ctx;
+  const [isAuthenticated, setAuth] = useContext(AuthContext);
   useEffect(() => {
     axios("http://server.localhost/logout", {
       method: "POST",
       withCredentials: true
     })
       .then(res => {
+        props.history.push("/");
+        console.log(props);
         setAuth(false);
       })
       .catch(err => {
@@ -28,4 +31,4 @@ const Logout = props => {
   );
 };
 
-export default Logout;
+export default withRouter(Logout);
