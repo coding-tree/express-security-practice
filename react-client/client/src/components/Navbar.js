@@ -3,9 +3,10 @@ import "./Navbar.css";
 import { NavLink, withRouter } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
-const Navbar = ({ isLogged, setIsLogged }) => {
+const Navbar = props => {
   const ctx = useContext(AuthContext);
   const { isAuthenticated } = ctx;
+  console.log(isAuthenticated);
   return (
     <AuthContext.Consumer>
       {context => (
@@ -41,4 +42,4 @@ const Navbar = ({ isLogged, setIsLogged }) => {
   );
 };
 
-export default withRouter(Navbar);
+export default Navbar;

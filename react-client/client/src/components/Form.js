@@ -8,7 +8,6 @@ import { AuthContext } from "../contexts/AuthContext";
 const Form = ({ history, location }) => {
   const ctx = useContext(AuthContext);
   const { isAuthenticated, setAuth } = ctx;
-  const [isLogged, setIsLogged] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [message, setMessage] = useState("");
   const [data, setData] = useState({});
@@ -18,10 +17,10 @@ const Form = ({ history, location }) => {
     }
   }, [isRegistered]);
   useEffect(() => {
-    if (isLogged || isAuthenticated) {
+    if (isAuthenticated) {
       history.push("/");
     }
-  }, [isLogged]);
+  }, [isAuthenticated]);
   const handleInputChange = e =>
     setData({
       ...data,
@@ -49,13 +48,11 @@ const Form = ({ history, location }) => {
       withCredentials: true
     })
       .then(response => {
-        setIsLogged(true);
         setAuth(true);
         history.push("/");
       })
       .catch(err => {
         console.log(err);
-        setIsLogged(false);
         setAuth(false);
       });
   };

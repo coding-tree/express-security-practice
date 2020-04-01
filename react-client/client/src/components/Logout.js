@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
 
-const Logout = ({ isLogged, setIsLogged }) => {
+const Logout = props => {
   const ctx = useContext(AuthContext);
   const { isAuthenticated, setAuth } = ctx;
   useEffect(() => {
@@ -11,7 +11,6 @@ const Logout = ({ isLogged, setIsLogged }) => {
       withCredentials: true
     })
       .then(res => {
-        setIsLogged(false);
         setAuth(false);
       })
       .catch(err => {
