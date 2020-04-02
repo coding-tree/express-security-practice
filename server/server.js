@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const express = require("express");
+const originUrl = process.env.ORIGIN_URL || "http://src.localhost";
 const port = process.env.PORT || 3000;
 
 const {
@@ -19,7 +20,7 @@ const app = express();
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors({ credentials: true, origin: "http://src.localhost" }));
+app.use(cors({ credentials: true, origin: originUrl }));
 
 const cookieTokenExtractor = cookieName => (req, res, next) => {
   req.token = req.cookies[cookieName];
@@ -59,12 +60,12 @@ const authorizationChain = [
 app.get("/", (req, res) => res.send("witaj na stronie"));
 
 app.post("/check", async (req, res, next) => {
-  res.set("Access-Control-Allow-Origin", "http://src.localhost");
+  res.set("Access-Control-Allow-Origin", originUrl);
   res.set("Access-Control-Allow-Credentials", true);
   res.set("Set-Cookie", "HttpOnly;Secure;SameSite=None");
   const token = req.cookies.session;
   if (!token) return;
-  console.log("token in check endpoint ", token);
+  console.log("Token in check endpoint ", token);
   const [user, error] = await checkSession(token);
   if (!user) {
     next();
@@ -89,7 +90,7 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  res.set("Access-Control-Allow-Origin", "http://src.localhost");
+  res.set("Access-Control-Allow-Origin", originUrl);
   res.set("Access-Control-Allow-Credentials", true);
   res.set("Set-Cookie", "HttpOnly;Secure;SameSite=None");
   const { name, password } = req.body;
@@ -112,7 +113,6 @@ app.post("/login", async (req, res) => {
 app.post("/logout", authorizationChain, async (req, res) => {
   console.log(req.token + " req token");
   removeSession(req.token);
-  res.clearCookie("authorization");
   res.clearCookie("session");
   res.redirect("/");
 });

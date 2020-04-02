@@ -5,6 +5,8 @@ import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
+const serverUrl = process.env.REACT_APP_SERVER_URL || "http://server.localhost";
+
 const Form = ({ history, location }) => {
   const [isAuthenticated, setAuth] = useContext(AuthContext);
   const [isRegistered, setIsRegistered] = useState(false);
@@ -28,7 +30,7 @@ const Form = ({ history, location }) => {
   const registerHandler = e => {
     e.preventDefault();
     axios
-      .post("http://server.localhost/register", data)
+      .post(`${serverUrl}/register`, data)
       .then(response => {
         console.log(response);
         setMessage("Stworzono konto");
@@ -41,7 +43,7 @@ const Form = ({ history, location }) => {
   };
   const loginHandler = e => {
     e.preventDefault();
-    axios("http://server.localhost/login", {
+    axios(`${serverUrl}/login`, {
       method: "POST",
       data: data,
       withCredentials: true
