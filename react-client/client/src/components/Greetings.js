@@ -1,20 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { withRouter } from "react-router";
-import axios from "axios";
-import { AuthContext } from "../contexts/AuthContext";
-const Greetings = ({ history }) => {
-  const [isAuthenticated, setAuth] = useContext(AuthContext);
 
+import { AuthContext } from "../contexts/AuthContext";
+
+const Greetings = () => {
+  const { isAuthenticated } = useContext(AuthContext);
   return (
-    <AuthContext.Consumer>
-      {context => (
-        <div style={{ color: "white", textAlign: "center" }}>
-          {isAuthenticated
-            ? "witaj zalogowany użytkowniku"
-            : "witaj nieznajomy"}
-        </div>
-      )}
-    </AuthContext.Consumer>
+    <div style={{ color: "white", textAlign: "center" }}>
+      {isAuthenticated ? "witaj zalogowany użytkowniku" : "witaj nieznajomy"}
+    </div>
   );
 };
 export default withRouter(Greetings);

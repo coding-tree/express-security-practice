@@ -9,12 +9,12 @@
     "install:all": "npm run install:client && npm run install:server",
     "hotel-init:client": "cd client && npm run set-client",
     "hotel-init:server": "cd server && npm run set-server",
-    "hotel-init": "npm run hotel-init:client && npm run hotel-init:server",
+    "hotel-init:react": "cd react-client && cd client && cd src && hotel add \"npm start\" index.js",
+    "hotel-init": "npm run hotel-init:client && npm run hotel-init:server && npm run hotel-init:react",
     "hotel-start": "hotel start",
     "hotel-stop": "hotel stop",
     "hotel-reset": "hotel stop && hotel start",
-    "hotel-info": "hotel --help",
-    "add-react": "cd react-client && cd client && cd src && hotel add \"npm start\" index.js"
+    "hotel-info": "hotel --help"
   },
   "repository": {
     "type": "git",
