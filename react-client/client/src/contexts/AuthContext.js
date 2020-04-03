@@ -6,6 +6,7 @@ const serverUrl = process.env.REACT_APP_SERVER_URL || "http://server.localhost";
 
 const AuthContextProvider = ({ children }) => {
   const [isAuthenticated, setAuth] = useState(false);
+
   useEffect(() => {
     axios(`${serverUrl}/check`, {
       method: "POST",
@@ -19,8 +20,9 @@ const AuthContextProvider = ({ children }) => {
         setAuth(false);
       });
   }, []);
+
   return (
-    <AuthContext.Provider value={[isAuthenticated, setAuth]}>
+    <AuthContext.Provider value={{ isAuthenticated, setAuth }}>
       {children}
     </AuthContext.Provider>
   );
