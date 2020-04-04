@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
@@ -32,3 +31,4 @@ const Logout = (props) => {
 };
 
 export default withRouter(Logout);
+

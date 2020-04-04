@@ -2,6 +2,7 @@ require('dotenv').config()
 
 const express = require('express')
 const app = express()
+const serverUrl = process.env.SERVER_URL || "http://server.localhost"
 const port = process.env.PORT || 3001
 const cors = require('cors')
 const axios = require('axios')
@@ -17,7 +18,7 @@ app.get('/', (req, res) => res.send('Hello World!'))
 
 app.post('/register', (req, res) => {
     const { name, password } = req.body
-    axios.post('http://server.localhost/register', { name, password })
+    axios.post(`${serverUrl}/register`, { name, password })
         .then((response) => {
             res.json(response.data.user)
         })
@@ -30,7 +31,7 @@ app.post('/login', (req, res) => {
     const { name, password } = req.body
     const token = req.headers.authorization
     console.log(req.headers);
-    axios.post('http://server.localhost/login', { name, password, token })
+    axios.post(`${serverUrl}/login`, { name, password, token })
         .then(response => {
             res.json(response.data)
         }).catch(err => {
