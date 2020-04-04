@@ -3,12 +3,12 @@ import "./Navbar.css";
 import { NavLink, withRouter } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
-const Navbar = props => {
+const Navbar = (props) => {
   const [isAuthenticated, setAuth] = useContext(AuthContext);
   console.log(isAuthenticated);
   return (
     <AuthContext.Consumer>
-      {context => (
+      {(context) => (
         <div className="nav">
           <div className="menu">
             <NavLink exact activeClassName="active" to="/">
@@ -30,7 +30,7 @@ const Navbar = props => {
               </NavLink>
             )}
             {isAuthenticated && (
-              <NavLink activeClassName="active" to="/private">
+              <NavLink activeClassName="active" to="/secret">
                 Tajemnica
               </NavLink>
             )}
