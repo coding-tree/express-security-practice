@@ -1,33 +1,34 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
 import { withRouter } from "react-router-dom";
 
-const serverUrl = process.env.REACT_APP_SERVER_URL || "http://server.localhost";
-
-const Logout = props => {
-  const { setAuth } = useContext(AuthContext);
-
+const Logout = (props) => {
+  const [isAuthenticated, setAuth] = useContext(AuthContext);
   useEffect(() => {
-    axios(`${serverUrl}/logout`, {
+    axios("http://server.localhost/logout", {
       method: "POST",
-      withCredentials: true
+      withCredentials: true,
     })
-      .then(res => {
+      .then((res) => {
         props.history.push("/");
         console.log(props);
         setAuth(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   }, []);
-
   return (
-    <div>
-      <h3 style={{ color: "red", textAlign: "center" }}>Wylogowano</h3>
-    </div>
+    <AuthContext.Consumer>
+      {(context) => (
+        <div>
+          <h3 style={{ color: "red", textAlign: "center" }}>Wylogowano</h3>
+        </div>
+      )}
+    </AuthContext.Consumer>
   );
 };
 
 export default withRouter(Logout);
+
