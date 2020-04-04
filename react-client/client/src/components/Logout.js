@@ -4,7 +4,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { withRouter } from "react-router-dom";
 
 const Logout = (props) => {
-  const [isAuthenticated, setAuth] = useContext(AuthContext);
+  const { isAuthenticated, setAuth } = useContext(AuthContext);
   useEffect(() => {
     axios("http://server.localhost/logout", {
       method: "POST",
@@ -31,4 +31,3 @@ const Logout = (props) => {
 };
 
 export default withRouter(Logout);
-

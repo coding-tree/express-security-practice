@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { withRouter } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
-const Secret = ({ history }) => {
-  const [isAuthenticated, setAuth] = useContext(AuthContext);
+const Secret = () => {
+  const { isAuthenticated, setAuth } = useContext(AuthContext);
 
   return (
     <AuthContext.Consumer>

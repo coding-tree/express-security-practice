@@ -4,7 +4,7 @@ import { NavLink, withRouter } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
 const Navbar = (props) => {
-  const [isAuthenticated, setAuth] = useContext(AuthContext);
+  const { isAuthenticated, setAuth } = useContext(AuthContext);
   console.log(isAuthenticated);
   return (
     <AuthContext.Consumer>
