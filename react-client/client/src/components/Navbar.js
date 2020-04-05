@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import "./Navbar.css";
-import { NavLink, withRouter } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
 const Navbar = (props) => {
-  const { isAuthenticated, setAuth } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
   console.log(isAuthenticated);
   return (
     <AuthContext.Consumer>

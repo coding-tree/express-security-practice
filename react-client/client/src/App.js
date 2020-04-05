@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import Navbar from "./components/Navbar";
 import Form from "./components/Form";
 import Logout from "./components/Logout";
@@ -6,7 +6,7 @@ import Greetings from "./components/Greetings";
 import Secret from "./components/Secret";
 import PrivateRoute from "./components/PrivateRoute";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import AuthContextProvider, { AuthContext } from "./contexts/AuthContext";
+import AuthContextProvider from "./contexts/AuthContext";
 
 const App = () => {
   return (
@@ -26,4 +26,5 @@ const App = () => {
     </AuthContextProvider>
   );
 };
+
 export default App;
