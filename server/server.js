@@ -11,7 +11,7 @@ const {
   createSession,
   fetchSession,
   removeSession,
-  checkSession
+  checkSession,
 } = require("./SessionService");
 const { loginUser, registerUser } = require("./UserRepository");
 
@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors({ credentials: true, origin: originUrl }));
 
-const cookieTokenExtractor = cookieName => (req, res, next) => {
+const cookieTokenExtractor = (cookieName) => (req, res, next) => {
   req.token = req.cookies[cookieName];
   next();
 };
@@ -54,7 +54,7 @@ const secured = (req, res, next) => {
 const authorizationChain = [
   cookieTokenExtractor("session"),
   authorizationHeaderTokenExtractor,
-  secured
+  secured,
 ];
 
 app.get("/", (req, res) => res.send("witaj na stronie"));
@@ -103,16 +103,16 @@ app.post("/login", async (req, res) => {
     res.json({
       token,
       user: {
-        name: user.name
+        name: user.name,
       },
-      message: "everything is ok from server"
+      message: "everything is ok from server",
     });
   }
 });
 
 app.post("/logout", authorizationChain, async (req, res) => {
   console.log(req.token + " req token");
-  removeSession(req.token);
+  removeSession(req.token, req.session.user.name);
   res.clearCookie("session");
   res.redirect("/");
 });

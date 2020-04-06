@@ -10,12 +10,12 @@ const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     axios(`${serverUrl}/check`, {
       method: "POST",
-      withCredentials: true
+      withCredentials: true,
     })
-      .then(response => {
+      .then((response) => {
         setAuth(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setAuth(false);
       });

@@ -3,7 +3,6 @@ import { withRouter } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 const Secret = () => {
   const { isAuthenticated, setAuth } = useContext(AuthContext);
-
   return (
     <AuthContext.Consumer>
       {(context) => (
