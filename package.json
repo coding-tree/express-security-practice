@@ -4,17 +4,19 @@
   "description": "You're wondering how to secure your backend application with simple token? This is how we do. Without passport/auth0/jwt/openauth etc. For now without database to avoid storing tons of fake users. Just for test purpouses.",
   "main": "index.js",
   "scripts": {
+    "install:react-client": "cd react-client && npm install",
     "install:client": "cd client && npm install",
     "install:server": "cd server && npm install",
-    "install:all": "npm run install:client && npm run install:server",
-    "hotel-init:client": "cd client && npm run set-client",
-    "hotel-init:server": "cd server && npm run set-server",
-    "hotel-init:react": "cd react-client && cd client && cd src && hotel add \"npm start\" index.js",
+    "install:all": "npm run install:client && npm run install:react-client && npm run install:server",
+    "hotel-init:client": "cd client && hotel add \"npm start\" index.js",
+    "hotel-init:server": "cd server && hotel add \"npm start\" server.js",
+    "hotel-init:react": "cd react-client && hotel add \"npm start\" index.js",
     "hotel-init": "npm run hotel-init:client && npm run hotel-init:server && npm run hotel-init:react",
     "hotel-start": "hotel start",
     "hotel-stop": "hotel stop",
     "hotel-reset": "hotel stop && hotel start",
-    "hotel-info": "hotel --help"
+    "hotel-info": "hotel --help",
+    "postinstall": "npm run install:all && npm run hotel-init"
   },
   "repository": {
     "type": "git",
