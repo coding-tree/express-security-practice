@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const express = require("express");
-const originUrl = process.env.ORIGIN_URL || "http://src.localhost";
+const originUrl = process.env.REACT_CLIENT_ORIGIN_URL || "http://src.localhost";
 const port = process.env.PORT || 3000;
 
 const {

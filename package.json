@@ -4,17 +4,19 @@
   "description": "You're wondering how to secure your backend application with simple token? This is how we do. Without passport/auth0/jwt/openauth etc. For now without database to avoid storing tons of fake users. Just for test purpouses.",
   "main": "index.js",
   "scripts": {
+    "install:react-client": "cd react-client && npm install",
     "install:client": "cd client && npm install",
     "install:server": "cd server && npm install",
-    "install:all": "npm run install:client && npm run install:server",
-    "hotel-init:client": "cd client && npm run set-client",
-    "hotel-init:server": "cd server && npm run set-server",
-    "hotel-init:react": "cd react-client && cd client && cd src && hotel add \"npm start\" index.js",
+    "install:all": "npm run install:client && npm run install:react-client && npm run install:server",
+    "hotel-init:client": "cd client && hotel add \"npm start\" index.js",
+    "hotel-init:server": "cd server && hotel add \"npm start\" server.js",
+    "hotel-init:react": "cd react-client && hotel add \"npm start\" index.js",
     "hotel-init": "npm run hotel-init:client && npm run hotel-init:server && npm run hotel-init:react",
     "hotel-start": "hotel start",
     "hotel-stop": "hotel stop",
     "hotel-reset": "hotel stop && hotel start",
-    "hotel-info": "hotel --help"
+    "hotel-info": "hotel --help",
+    "postinstall": "npm run install:all && npm run hotel-init"
   },
   "repository": {
     "type": "git",
@@ -27,24 +29,24 @@
     "url": "https://github.com/kazbag/express-security-practice/issues"
   },
   "homepage": "https://github.com/kazbag/express-security-practice#readme",
-  "dependencies": {
-    "@types/eslint-plugin-prettier": "^2.2.0",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-flowtype": "^4.6.0",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-react-hooks": "^2.5.1",
-    "prettier": "^1.19.1"
-  },
   "devDependencies": {
-    "hotel": "^0.8.7",
-    "eslint": "^6.8.0",
-    "@types/eslint": "^6.1.8",
+    "dotenv": "^8.2.0",
+    "eslint-config-prettier": "^6.10.0",
     "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-flowtype": "^4.6.0",
     "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react-hooks": "^2.5.1",
     "eslint-plugin-react": "^7.19.0",
-    "eslint-plugin-standard": "^4.0.1"
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint": "^6.8.0",
+    "hotel": "^0.8.7",
+    "nodemon": "^2.0.2",
+    "prettier": "^1.19.1",
+    "@types/eslint-plugin-prettier": "^2.2.0",
+    "@types/eslint": "^6.1.8"
   }
 }
